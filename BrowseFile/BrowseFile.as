@@ -2,6 +2,7 @@ package
 {
     import flash.display.Sprite;
     import flash.display.Loader;
+    import flash.net.FileFilter;
     import flash.net.FileReference;
     import flash.net.FileReferenceList;
     import flash.events.Event;
@@ -66,7 +67,7 @@ package
         private function handleClickOpenMultiple(event:MouseEvent):void {
             frl = new FileReferenceList;
             frl.addEventListener(Event.SELECT, onMultipleFilesSelected);
-            frl.browse();
+            frl.browse(getFileTypes());
             txt.appendText("dialog create for multiple select open\n");
         }
 
@@ -91,6 +92,17 @@ package
 
         private function onCancel(event:Event):void {
             txt.appendText("cancel\n");
+        }
+
+        private function getFileTypes():Array {
+            var types:Array = new Array();
+
+            types.push(new FileFilter("Images (*.jpg, *.jpeg, *.gif, *.png)",
+                                      "*.jpg;*.jpeg;*.gif;*.png"));
+            types.push(new FileFilter("Text Files (*.txt, *.rtf)", "*.txt;*.rtf"));
+            types.push(new FileFilter("All Files (*)", "*"));
+
+            return types;
         }
    }
 }
