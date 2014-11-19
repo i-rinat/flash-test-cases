@@ -3,6 +3,7 @@ package
     import flash.display.Sprite;
     import flash.display.Loader;
     import flash.net.FileReference;
+    import flash.net.FileReferenceList;
     import flash.events.Event;
     import flash.events.MouseEvent;
     import flash.text.TextField;
@@ -13,13 +14,22 @@ package
     {
         private var txt:TextField;
         private var fr:FileReference;
+        private var frl:FileReferenceList;
 
         public function BrowseFile() {
-            var btn:CustomSimpleButton = new CustomSimpleButton();
+            var btn:CustomSimpleButton;
+            btn = new CustomSimpleButton();
             btn.label = "Open file...";
             btn.x = 20;
             btn.y = 20;
-            btn.addEventListener(MouseEvent.CLICK, handleClick);
+            btn.addEventListener(MouseEvent.CLICK, handleClickOpenSingle);
+            addChild(btn);
+
+            btn = new CustomSimpleButton();
+            btn.label = "Open multiple files...";
+            btn.x = 120;
+            btn.y = 20;
+            btn.addEventListener(MouseEvent.CLICK, handleClickOpenMultiple);
             addChild(btn);
 
             var fmt:TextFormat = new TextFormat();
@@ -36,21 +46,45 @@ package
             addChild(txt);
         }
 
-        private function handleClick(event:MouseEvent):void {
-            fr = new FileReference();
-            fr.addEventListener(Event.SELECT, onFileSelected);
+        // open single file
+        private function handleClickOpenSingle(event:MouseEvent):void {
+            fr = new FileReference;
+            fr.addEventListener(Event.SELECT, onSingleFileSelected);
             fr.browse();
-            txt.appendText("dialog opened\n");
+            txt.appendText("dialog create for single select open\n");
         }
 
-        private function onFileSelected(event:Event):void {
+        private function onSingleFileSelected(event:Event):void {
+            var fr:FileReference = FileReference(event.target);
             fr.addEventListener(Event.COMPLETE, onFileLoaded);
             fr.addEventListener(Event.CANCEL, onCancel);
             fr.load();
             txt.appendText("file selected\n");
         }
 
+        // open multiple files
+        private function handleClickOpenMultiple(event:MouseEvent):void {
+            frl = new FileReferenceList;
+            frl.addEventListener(Event.SELECT, onMultipleFilesSelected);
+            frl.browse();
+            txt.appendText("dialog create for multiple select open\n");
+        }
+
+        private function onMultipleFilesSelected(event:Event):void {
+            var frl:FileReferenceList = FileReferenceList(event.target);
+
+            for (var k:uint; k < frl.fileList.length; k++) {
+                var fr:FileReference = frl.fileList[k];
+                fr.addEventListener(Event.COMPLETE, onFileLoaded);
+                fr.addEventListener(Event.CANCEL, onCancel);
+                fr.load();
+            }
+
+            txt.appendText("multiple files selected\n");
+        }
+
         private function onFileLoaded(event:Event):void {
+            var fr:FileReference = FileReference(event.target);
             txt.appendText("file name: " + fr.name + "\n");
             txt.appendText("file size: " + fr.size + " bytes\n");
         }
