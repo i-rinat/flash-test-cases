@@ -13,7 +13,9 @@ package
             var txt:TextField = new TextField();
 
             fmt.size = 32;
-            txt.text = 'Hello, world!';
+            txt.text = 'Hello, world!' + '\n' +
+                'stage.fullScreenWidth = ' + stage.fullScreenWidth + '\n' +
+                'stage.fullScreenHeight = ' + stage.fullScreenHeight;
             txt.setTextFormat(fmt);
             txt.autoSize = TextFieldAutoSize.LEFT;
 
