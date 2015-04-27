@@ -42,6 +42,7 @@
 
             public function startRecording():void {
                 record_btn.enabled = false;
+                soundBytes.clear();
                 timer.start();
                 mic.addEventListener(SampleDataEvent.SAMPLE_DATA, micSampleDataHandler);
                 textarea.text += "Recording ... ";
