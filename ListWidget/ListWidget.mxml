@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:Application xmlns:fx="http://ns.adobe.com/mxml/2009"
+    xmlns:s="library://ns.adobe.com/flex/spark"
+    xmlns:mx="library://ns.adobe.com/flex/mx"
+    creationComplete="onCreationComplete()">
+    <s:layout>
+        <s:VerticalLayout/>
+    </s:layout>
+
+    <fx:Script>
+        <![CDATA[
+            private function onCreationComplete(): void
+            {
+                for (var k:int = 1; k < 1000; k ++) {
+                    lst.dataProvider.addItem("Item " + k);
+                }
+            }
+        ]]>
+    </fx:Script>
+
+    <s:List id="lst" width="300" height="400">
+        <mx:ArrayCollection>
+            <fx:String>Item 0</fx:String>
+        </mx:ArrayCollection>
+    </s:List>
+</s:Application>
