@@ -11,7 +11,7 @@ package
             var cam:Camera = Camera.getCamera();
 
             if (cam != null) {
-                cam.setMode(stage.stageWidth, stage.stageHeight, 15, true);
+                cam.setMode(960, 720, 15, true);
 
                 var vid:Video = new Video(cam.width, cam.height);
                 vid.x = 0;
