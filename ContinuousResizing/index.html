@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Continuous Resizing</title>
+</head>
+<body>
+    <embed type="application/x-shockwave-flash" width="200px" height="200px"
+           src="Box.swf" style="border: 1px solid black"
+           id="box" />
+
+<script>
+    var baseWidth = 200;
+    var baseHeight = 200;
+    var radius = 150;
+
+    var box = document.querySelector("#box");
+
+    function drawFrame(timestamp) {
+        var phase = timestamp / 1000;
+
+        box.width = baseWidth + radius * Math.cos(phase);
+        box.height = baseHeight + radius * Math.sin(phase);
+
+        window.requestAnimationFrame(drawFrame);
+    }
+
+    window.requestAnimationFrame(drawFrame);
+</script>
+</body>
+</html>
