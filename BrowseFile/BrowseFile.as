@@ -10,6 +10,7 @@ package
     import flash.text.TextField;
     import flash.text.TextFormat;
     import flash.text.TextFieldAutoSize;
+    import ftccommon.CustomSimpleButton;
 
     public class BrowseFile extends Sprite
     {
@@ -105,99 +106,4 @@ package
             return types;
         }
    }
-}
-
-import flash.display.Sprite;
-import flash.display.SimpleButton;
-import flash.display.Shape;
-import flash.text.TextField;
-import flash.text.TextFormat;
-import flash.text.TextFieldAutoSize;
-
-class CustomSimpleButton extends SimpleButton {
-    private var upColor:uint   = 0xCCCCCC;
-    private var overColor:uint = 0xDFDFDF;
-    private var downColor:uint = 0x808080;
-    private var _label:String = "";
-    private var _w:uint = 80;
-    private var _h:uint = 30;
-
-    public function CustomSimpleButton() {
-        recreateStates();
-    }
-
-    public function set label(s:String):void {
-        this._label = s;
-        recreateStates();
-    }
-
-    public function get label():String {
-        return this._label;
-    }
-
-    public function set w(value:uint): void {
-        this._w = value;
-        recreateStates();
-    }
-
-    public function get w():uint {
-        return this._w;
-    }
-
-    public function set h(value:uint):void {
-        this._h = value;
-        recreateStates();
-    }
-
-    public function get h():uint {
-        return this._h;
-    }
-
-    private function recreateStates():void {
-        downState      = new ButtonDisplayState(downColor, _w, _h, _label);
-        overState      = new ButtonDisplayState(overColor, _w, _h, _label);
-        upState        = new ButtonDisplayState(upColor, _w, _h, _label);
-        hitTestState   = new ButtonDisplayState(upColor, _w, _h, _label);
-        useHandCursor  = true;
-    }
-}
-
-class ButtonDisplayState extends Sprite {
-    private var bgColor:uint;
-    private var _label:String;
-    private var _w:uint;
-    private var _h:uint;
-
-    public function ButtonDisplayState(bgColor:uint, w:uint, h:uint, _label:String) {
-        this.bgColor = bgColor;
-        this._w      = w;
-        this._h      = h;
-        this._label  = _label;
-        draw();
-    }
-
-    private function draw():void {
-        var fmt:TextFormat = new TextFormat();
-        fmt.size = 12;
-
-        var t:TextField = new TextField();
-        t.text = this._label;
-        t.setTextFormat(fmt);
-        t.autoSize = TextFieldAutoSize.LEFT;
-        t.width = t.textWidth;
-        t.height = t.textHeight;
-
-        if (this._w < t.width + 6)
-            this._w = t.width + 6;
-        if (this._h < t.height + 6)
-            this._h = t.height + 6;
-
-        t.x = (this._w - t.width) / 2;
-        t.y = (this._h - t.height) / 2;
-        this.addChild(t);
-
-        graphics.beginFill(bgColor);
-        graphics.drawRect(0, 0, _w, _h);
-        graphics.endFill();
-    }
 }
